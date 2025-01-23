@@ -2,7 +2,6 @@ import { Button } from "@/components/Button";
 import Link from "next/link";
 
 export default function Home() {
-  function handleClick() {}
   return (
     <div>
       <h1>Bem Vindo ao Calculo eletrico</h1>

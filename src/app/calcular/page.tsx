@@ -1,13 +1,10 @@
-import { devicesArray } from "@/api/devices";
+import { Calculator } from "@/components/Calculator";
 
-export default function Calcular() {
-  function handleClick() {}
+export default function CalcularPage() {
   return (
     <div>
       <h1>Comece a calcular</h1>
-      <div>
-        <p>{devicesArray.map((e) => e.name)}</p>
-      </div>
+      <Calculator />
     </div>
   );
 }
