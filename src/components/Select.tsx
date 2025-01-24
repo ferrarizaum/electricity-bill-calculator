@@ -3,7 +3,11 @@
 import { StateProps, statesArray } from "@/api/states";
 import { useStateContext } from "./Context/StateContext";
 
-export const Select = () => {
+type SelectProps = {
+  text: string;
+};
+
+export const Select = ({ text }: SelectProps) => {
   const { selectedState, setSelectedState } = useStateContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -13,16 +17,33 @@ export const Select = () => {
   };
 
   return (
-    <div>
-      <label>Choose a state:</label>
-      <select value={selectedState?.name} onChange={handleChange}>
-        {statesArray.map((state) => (
-          <option key={state.id} value={state.name}>
-            {state.name} (Tariff: {state.tariff})
-          </option>
-        ))}
-      </select>
-      {selectedState && <p>You selected: {selectedState.name}</p>}
-    </div>
+    <>
+      <div style={{ justifySelf: "center", margin: 10 }}>
+        <label>{text}</label>
+      </div>
+      <div>
+        <select
+          style={{
+            backgroundColor: "#f0f0f0",
+            color: "#333",
+            padding: "10px 12px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            outline: "none",
+            cursor: "pointer",
+          }}
+          value={selectedState?.name}
+          onChange={handleChange}
+        >
+          {statesArray.map((state) => (
+            <option key={state.id} value={state.name}>
+              {state.name} (Tarifa: {state.tariff})
+            </option>
+          ))}
+        </select>
+      </div>
+    </>
   );
 };

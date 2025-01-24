@@ -43,6 +43,7 @@ export const Calculator = () => {
             <p key={index}>{e.name}</p>
           ))}
           <Button
+            color="#e74c3c"
             text="Limpar dispositivos selecionados"
             onClick={() => setSelectedDevices([])}
           />
