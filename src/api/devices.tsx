@@ -24,4 +24,16 @@ export const devicesArray: DeviceProps[] = [
     description: "Third device description",
     consumokWh: 30,
   },
+  {
+    id: 4,
+    name: "Chuveiro elétrico",
+    description: "Fourth device description",
+    consumokWh: 140,
+  },
+  {
+    id: 5,
+    name: "Computador",
+    description: "Fifth device description",
+    consumokWh: 50,
+  },
 ];
