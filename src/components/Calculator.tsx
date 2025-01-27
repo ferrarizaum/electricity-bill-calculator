@@ -70,6 +70,11 @@ export const Calculator = () => {
           R$
           {(totalConsumokWh * 0.824 + selectedState.tariff).toFixed(1)}
         </div>
+        <div style={{ textAlign: "center" }}>
+          <h1>Total gasto por mês</h1>
+          R$
+          {(totalConsumokWh * 0.824 * 30 + selectedState.tariff).toFixed(1)}
+        </div>
       </div>
     </>
   );

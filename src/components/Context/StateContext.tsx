@@ -8,9 +8,8 @@ interface StateContextType {
   setSelectedState: (state: StateProps) => void;
 }
 
-// Default values for the context
 const defaultContextValue: StateContextType = {
-  selectedState: statesArray[0], // or you can use statesArray[0] as a default
+  selectedState: statesArray[0],
   setSelectedState: () => {},
 };
 
