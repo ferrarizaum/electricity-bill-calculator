@@ -94,6 +94,6 @@ export const devicesArray: DeviceProps[] = [
     id: 15,
     name: "Ferro de passar",
     description: "Electric iron for ironing clothes",
-    watts: 1200,
+    watts: 1201,
   },
 ];
