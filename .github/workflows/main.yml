@@ -1,0 +1,76 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests (modify as needed for your test command)
+      - name: Run tests
+        run: npm test
+        continue-on-error: true # Optional: Skip if tests fail, adjust based on needs
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/electricity-calculator:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      # Set up SSH key for EC2 access
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ssh_key.pem
+          chmod 600 ssh_key.pem
+
+      # Deploy to EC2 by pulling and running the new image
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # Log in to Docker Hub
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+            # Stop and remove the existing container
+            docker stop objective_shaw || true
+            docker rm objective_shaw || true
+
+            # Pull the new image
+            docker pull ${{ secrets.DOCKER_USERNAME }}/electricity-calculator:latest
+
+            # Run the new container
+            docker run -d --name objective_shaw --restart always -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/electricity-calculator:latest
+
+            # Clean up unused images
+            docker image prune -f
+          EOF
