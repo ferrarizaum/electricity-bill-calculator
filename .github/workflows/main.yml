@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  CI:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository code
@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
 
       # Install dependencies
       - name: Install dependencies
@@ -44,8 +44,8 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/electricity-calculator:latest
 
-  deploy:
-    needs: build-and-push
+  CD:
+    needs: CI
     runs-on: ubuntu-latest
     steps:
       # Set up SSH key for EC2 access

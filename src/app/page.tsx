@@ -33,7 +33,7 @@ export default function Home() {
               color: "#333",
             }}
           >
-            Teste Bem-vindo ao Cálculo Elétrico
+            Bem-vindo ao Cálculo Elétrico
           </h1>
           <p style={{ fontSize: "16px", color: "#777" }}>
             Selecione seu estado e comece a calcular o consumo elétrico.
